@@ -4,6 +4,7 @@
     position: absolute;
     border-width:2px;
     border-style:ridge;
+    z-index: auto;
 }
 
 .windowBorder {
@@ -43,7 +44,16 @@
     top: 0px;
     height: 20px;
     width: inherit;
+    text-align: center;
     border-bottom-style: ridge;
     border-bottom-width: 1px;
     cursor: move;
+    /* prevent the user to select the title of windows (would be weird and distracting) */
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
 }

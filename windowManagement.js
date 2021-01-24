@@ -1,7 +1,10 @@
 var currentElement;
+var topIndex=0;
 
 var mouseDown = function (element) {
     currentElement = element;
+    topIndex=topIndex+1;
+    currentElement.parentElement.style.zIndex = topIndex;
     currentElement.parentElement.addEventListener('mouseup', stopEventListening, false);
     if (currentElement.id === "headerID-"+currentElement.parentElement.id) {
         currentElement.parentElement.addEventListener('mousemove', move, false);
@@ -12,7 +15,7 @@ var mouseDown = function (element) {
 };
 
 var move = function(e) {
-    currentElement.parentElement.style.left = e.clientX - currentElement.offsetWidth/2 +"px";
+    currentElement.parentElement.style.left = e.clientX - (currentElement.offsetWidth/2) +"px";
     currentElement.parentElement.style.top = e.clientY - (currentElement.offsetHeight) +"px";
 };
 

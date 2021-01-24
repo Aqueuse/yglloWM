@@ -7,7 +7,7 @@ class yglloWindow extends HTMLElement {
         // Create a shadow root
         const shadow = this.attachShadow({ mode: 'open' });
 
-        // Create some CSS to apply to the shadow dom
+        // Create some initial CSS to apply to the shadow dom
         const style = document.createElement('style');
         var generalImport = "@import './yglloWM.css';\n";
         var positionAbsolute = "position : absolute;\n";
@@ -47,6 +47,7 @@ class yglloWindow extends HTMLElement {
         header.setAttribute('class', 'windowHeader');
         header.setAttribute('onmousedown', 'mouseDown(this)');
         header.setAttribute('id', 'headerID-'+uniqueID);
+        header.innerHTML = title;
 
         // Attach the created elements to the shadow dom
         wrapper.appendChild(borderLeft);
