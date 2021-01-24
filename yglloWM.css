@@ -1,0 +1,50 @@
+@import './basicColors.css';
+
+.wrapper {
+    position: absolute;
+    border-width:2px;
+    border-style:ridge;
+    border-radius: 5%;
+}
+
+.windowBorder {
+    position: absolute;
+}
+
+.windowBorder.borderLeft {
+    left: 0px;
+    height: inherit;
+    width: 5px;
+    cursor: col-resize;
+}
+
+.windowBorder.borderRight {
+    right: 0px;
+    height: inherit;
+    width: 5px;
+    cursor: col-resize;
+}
+
+.windowBorder.borderTop {
+    top: 0px;
+    height: 5px;
+    width: inherit;
+    cursor: row-resize;
+}
+
+.windowBorder.borderBottom {
+    bottom: 0px;
+    height: 5px;
+    width: inherit;
+    cursor: row-resize;
+}
+
+.windowHeader {
+    position: absolute;
+    top: 0px;
+    height: 20px;
+    width: inherit;
+    border-bottom-style: ridge;
+    border-bottom-width: 1px;
+    cursor: move;
+}

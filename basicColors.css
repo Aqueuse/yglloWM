@@ -1,0 +1,13 @@
+.wrapper {
+    background-color: white;
+    /* border-color: silver; */
+}
+
+.windowBorder {
+    background-color: transparent;
+}
+
+.windowHeader {
+    border-bottom-color: silver;
+    background-color: whitesmoke;
+}
