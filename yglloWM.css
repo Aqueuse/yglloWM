@@ -4,7 +4,6 @@
     position: absolute;
     border-width:2px;
     border-style:ridge;
-    border-radius: 5%;
 }
 
 .windowBorder {
@@ -14,27 +13,27 @@
 .windowBorder.borderLeft {
     left: 0px;
     height: inherit;
-    width: 5px;
+    width: 15px;
     cursor: col-resize;
 }
 
 .windowBorder.borderRight {
     right: 0px;
     height: inherit;
-    width: 5px;
+    width: 15px;
     cursor: col-resize;
 }
 
 .windowBorder.borderTop {
     top: 0px;
-    height: 5px;
+    height: 15px;
     width: inherit;
     cursor: row-resize;
 }
 
 .windowBorder.borderBottom {
     bottom: 0px;
-    height: 5px;
+    height: 15px;
     width: inherit;
     cursor: row-resize;
 }
