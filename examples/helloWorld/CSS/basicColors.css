@@ -1,0 +1,16 @@
+.wrapper {
+    background-color: white;
+    border-color: lightgrey;
+}
+
+.windowBorder {
+    opacity: 0;
+}
+
+.windowHeader {
+    background-color: whitesmoke;
+}
+
+.windowInternalContainer {
+    background-color: white;
+}

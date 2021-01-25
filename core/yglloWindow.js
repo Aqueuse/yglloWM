@@ -9,7 +9,7 @@ class yglloWindow extends HTMLElement {
 
         // generate CSS to apply to the window
         const style = document.createElement('style');
-        var generalImport = "@import './yglloWM.css';\n";
+        var generalImport = "@import './CSS/yglloWM.css';\n";
         left = "left : "+left+"px;";
         top = "top : "+top+"px;";
         width = "width : "+width+"px;";

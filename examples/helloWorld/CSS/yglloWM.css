@@ -1,0 +1,62 @@
+@import './basicColors.css';
+
+.wrapper {
+    border: 1px solid;
+}
+
+.windowBorder {
+    position: absolute;
+}
+
+.windowBorder.borderLeft {
+    left: -10px;
+    height: inherit;
+    width: 20px;
+    cursor: col-resize;
+}
+
+.windowBorder.borderRight {
+    right: -10px;
+    height: inherit;
+    width: 20px;
+    cursor: col-resize;
+}
+
+.windowBorder.borderTop {
+    top: -10px;
+    height: 20px;
+    width: inherit;
+    cursor: row-resize;
+}
+
+.windowBorder.borderBottom {
+    bottom: -10px;
+    height: 20px;
+    width: inherit;
+    cursor: row-resize;
+}
+
+.windowHeader {
+    position: absolute;
+    top: 0px;
+    height: 20px;
+    width: inherit;
+    text-align: center;
+    cursor: move;
+    border-bottom: 1px solid;
+    /* prevent the user to select the title of the windows */
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+.windowInternalContainer {
+    width: inherit;
+    height: 100%-20px;
+    margin-top: 20px;
+    border: 2px ridge solid;
+}
