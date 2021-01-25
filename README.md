@@ -1,3 +1,3 @@
-# yglloWM, inspired by YGWM, made be Aqueuse
+# yglloWM
 
-a modern lightwheight window manager for web browser, more 2020 and minimalist
+A modern lightwheight window manager for web browser, inspired by YGWM, made by Aqueuse. Ergonomy and code readability enhanced.
