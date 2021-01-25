@@ -7,24 +7,30 @@ class yglloWindow extends HTMLElement {
         // Create a shadow root
         const shadow = this.attachShadow({ mode: 'open' });
 
-        // Create some initial CSS to apply to the shadow dom
+        // generate CSS to apply to the window
         const style = document.createElement('style');
         var generalImport = "@import './yglloWM.css';\n";
-        var positionAbsolute = "position : absolute;\n";
-        left = "left : "+left+"px;\n";
-        top = "top : "+top+"px;\n";
-        width = "width : "+width+"px;\n";
-        height = "height : "+height+"px;\n";
+        left = "left : "+left+"px;";
+        top = "top : "+top+"px;";
+        width = "width : "+width+"px;";
+        height = "height : "+height+"px;";
 
-        var wrapperStyle=generalImport+".wrapper {\n"+positionAbsolute+left+top+width+height+"\n}\n";
-        style.textContent=wrapperStyle;
+        style.textContent=generalImport;
+        var wrapperStyle="position : absolute;"+left+top+width+height;
 
+        // create a uniqueID to later manipulate wathever we want
         var uniqueID = getUniqueID(title);
 
-        // Create div
         const wrapper = document.createElement('div');
         wrapper.setAttribute('class', 'wrapper');
         wrapper.setAttribute('id', uniqueID);
+        wrapper.setAttribute('style', wrapperStyle);
+
+        const header = document.createElement('div');
+        header.setAttribute('class', 'windowHeader');
+        header.setAttribute('onmousedown', 'mouseDown(this)');
+        header.setAttribute('id', 'headerID-'+uniqueID);
+        header.innerHTML = title;
 
         const borderLeft = document.createElement('div');
         borderLeft.setAttribute('class', 'windowBorder borderLeft');
@@ -43,11 +49,10 @@ class yglloWindow extends HTMLElement {
         borderBottom.setAttribute('onmousedown', 'mouseDown(this)');
         borderBottom.setAttribute('id', 'borderBottomID-'+uniqueID);
 
-        const header = document.createElement('div');
-        header.setAttribute('class', 'windowHeader');
-        header.setAttribute('onmousedown', 'mouseDown(this)');
-        header.setAttribute('id', 'headerID-'+uniqueID);
-        header.innerHTML = title;
+        const windowInternalContainer = document.createElement('div');
+        windowInternalContainer.setAttribute('class', 'windowInternalContainer');
+        windowInternalContainer.setAttribute('onmousedown', 'mouseDown(this)');
+        windowInternalContainer.setAttribute('id', 'windowInternalContainer-'+uniqueID);
 
         // Attach the created elements to the shadow dom
         wrapper.appendChild(borderLeft);
@@ -55,6 +60,7 @@ class yglloWindow extends HTMLElement {
         wrapper.appendChild(borderTop);
         wrapper.appendChild(borderBottom);
         wrapper.appendChild(header);
+        wrapper.appendChild(windowInternalContainer);
 
         shadow.appendChild(style);
         shadow.appendChild(wrapper);

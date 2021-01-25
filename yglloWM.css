@@ -1,10 +1,6 @@
 @import './basicColors.css';
 
 .wrapper {
-    position: absolute;
-    border-width:2px;
-    border-style:ridge;
-    z-index: auto;
 }
 
 .windowBorder {
@@ -45,8 +41,7 @@
     height: 20px;
     width: inherit;
     text-align: center;
-    border-bottom-style: ridge;
-    border-bottom-width: 1px;
+    border: 2px ridge;
     cursor: move;
     /* prevent the user to select the title of windows (would be weird and distracting) */
     -webkit-touch-callout: none; /* iOS Safari */
@@ -56,4 +51,11 @@
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
+}
+
+.windowInternalContainer {
+    width: inherit;
+    height: 100%;
+    margin-top: 20px;
+    border: 2px ridge;
 }

@@ -1,10 +1,5 @@
-ygllo-window {
-    position: absolute;
-}
-
 .wrapper {
     background-color: white;
-    /* border-color: silver; */
 }
 
 .windowBorder {
@@ -12,6 +7,9 @@ ygllo-window {
 }
 
 .windowHeader {
-    border-bottom-color: silver;
     background-color: whitesmoke;
+}
+
+.windowInternalContainer {
+    background-color: white;
 }

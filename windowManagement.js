@@ -1,22 +1,32 @@
 var currentElement;
 var topIndex=0;
+var relativeMousePos;
 
 var mouseDown = function (element) {
     currentElement = element;
+    
     topIndex=topIndex+1;
     currentElement.parentElement.style.zIndex = topIndex;
-    currentElement.parentElement.addEventListener('mouseup', stopEventListening, false);
+
     if (currentElement.id === "headerID-"+currentElement.parentElement.id) {
-        currentElement.parentElement.addEventListener('mousemove', move, false);
+        currentElement.parentElement.addEventListener('mousemove', saveRelativeMousePos, false);
     }
     else {
         currentElement.parentElement.addEventListener('mousemove', resize, false);
     }
+    currentElement.parentElement.addEventListener('mouseup', stopEventListening, false);
 };
 
+// sorte of a middleware to save the relative mous pos :)
+var saveRelativeMousePos = function(e) {
+    relativeMousePos = e.clientX - parseInt(currentElement.parentElement.style.left,10);
+    currentElement.parentElement.removeEventListener('mousemove', saveRelativeMousePos, false);
+    currentElement.parentElement.addEventListener('mousemove', move, false);
+}
+
 var move = function(e) {
-    currentElement.parentElement.style.left = e.clientX - (currentElement.offsetWidth/2) +"px";
-    currentElement.parentElement.style.top = e.clientY - (currentElement.offsetHeight) +"px";
+    currentElement.parentElement.style.left = e.clientX - relativeMousePos + "px";
+    currentElement.parentElement.style.top = e.clientY - (currentElement.offsetHeight/2) +"px";
 };
 
 var resize = function(e) {
