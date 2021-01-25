@@ -1,9 +1,10 @@
 .wrapper {
     background-color: white;
+    border-color: lightgrey;
 }
 
 .windowBorder {
-    background-color: transparent;
+    opacity: 0;
 }
 
 .windowHeader {

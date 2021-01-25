@@ -1,6 +1,7 @@
 @import './basicColors.css';
 
 .wrapper {
+    border: 1px solid;
 }
 
 .windowBorder {
@@ -8,29 +9,29 @@
 }
 
 .windowBorder.borderLeft {
-    left: 0px;
+    left: -10px;
     height: inherit;
-    width: 15px;
+    width: 20px;
     cursor: col-resize;
 }
 
 .windowBorder.borderRight {
-    right: 0px;
+    right: -10px;
     height: inherit;
-    width: 15px;
+    width: 20px;
     cursor: col-resize;
 }
 
 .windowBorder.borderTop {
-    top: 0px;
-    height: 15px;
+    top: -10px;
+    height: 20px;
     width: inherit;
     cursor: row-resize;
 }
 
 .windowBorder.borderBottom {
-    bottom: 0px;
-    height: 15px;
+    bottom: -10px;
+    height: 20px;
     width: inherit;
     cursor: row-resize;
 }
@@ -41,9 +42,9 @@
     height: 20px;
     width: inherit;
     text-align: center;
-    border: 2px ridge;
     cursor: move;
-    /* prevent the user to select the title of windows (would be weird and distracting) */
+    border-bottom: 1px solid;
+    /* prevent the user to select the title of the windows */
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */
        -khtml-user-select: none; /* Konqueror HTML */
@@ -55,7 +56,7 @@
 
 .windowInternalContainer {
     width: inherit;
-    height: 100%;
+    height: 100%-20px;
     margin-top: 20px;
-    border: 2px ridge;
+    border: 2px ridge solid;
 }
