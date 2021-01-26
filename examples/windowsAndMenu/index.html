@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+    <script src="./core/yglloWindow.js"></script>
+    <script src="./core/yglloMenu.js"></script>
+    <script src="./core/windowManagement.js"></script>
+
+    <div class="menuContainer" id="menuContainerID"></div>
+    
+    <script>
+    window1 = new yglloWindow("my window 1", 10, 100, 150, 200);
+    window2 = new yglloWindow("my window 2", 10, 100, 150, 200);
+    window3 = new yglloWindow("my window 3", 10, 100, 150, 200);
+    window4 = new yglloWindow("my window 4", 10, 100, 150, 200);
+
+    document.body.append(window1);
+    document.body.append(window2);
+    document.body.append(window3);
+    document.body.append(window4);
+
+    var menuContent1 = {  // very simple, juste two direct links
+        'directItem1':'fenêtres',
+        'directItem2':'paramètres'
+    };
+
+    var menuContent2 = { // a little more advanced, one submenu
+        'directItem1':'myItemLink1',
+        'directItem2':'myItemLink2',
+        'subMenu1':{
+            'mySubItem1':'myItemLink3',
+            'mySubItem2':'myItemLink4'
+        }
+    };
+
+    var menuContent3 = {  // two submenus are possible of course
+        'directItem1':'myItemLink1',
+        'directItem2':'myItemLink2',
+        'subMenu1':{
+            'mySubItem1':'myItemLink3',
+            'mySubItem2':'myItemLink4'
+        },
+        'subMenu2':{
+            'mySubItem3':'myItemLink5',
+            'mySubItem4':'myItemLink6'
+        },
+        'directItem3':'myItemLink7'
+    };
+
+    myMenuAbove1 = new yglloMenu(menuContent1, "above");
+//    myMenuAbove2 = new yglloMenu(menuContent2, "above");
+//    myMenuBelow1 = new yglloMenu(menuContent3, "below");
+
+document.getElementById("menuContainerID").append(myMenuAbove1);
+
+</script>
+
+</body>
+</html>

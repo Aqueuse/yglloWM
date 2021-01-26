@@ -1,7 +1,6 @@
 // Create a class for the element
 class yglloWindow extends HTMLElement {
     constructor(title, left, top, width, height) {
-        // Always call super first in constructor
         super();
 
         // Create a shadow root
@@ -10,19 +9,18 @@ class yglloWindow extends HTMLElement {
         // generate CSS to apply to the window
         const style = document.createElement('style');
         var generalImport = "@import './CSS/yglloWM.css';\n";
+        style.textContent=generalImport;
+
         left = "left : "+left+"px;";
         top = "top : "+top+"px;";
         width = "width : "+width+"px;";
         height = "height : "+height+"px;";
-
-        style.textContent=generalImport;
         var wrapperStyle="position : absolute;"+left+top+width+height;
 
-        // create a uniqueID to later manipulate wathever we want
         var uniqueID = getUniqueID(title);
 
         const wrapper = document.createElement('div');
-        wrapper.setAttribute('class', 'wrapper');
+        wrapper.setAttribute('class', 'windowWrapper');
         wrapper.setAttribute('id', uniqueID);
         wrapper.setAttribute('style', wrapperStyle);
 

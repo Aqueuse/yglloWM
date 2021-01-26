@@ -1,7 +1,7 @@
 @import './basicColors.css';
 
-.wrapper {
-    border: 1px solid;
+.windowWrapper {
+    border: 2px ridge;
 }
 
 .windowBorder {
@@ -39,7 +39,7 @@
 .windowHeader {
     position: absolute;
     top: 0px;
-    height: 20px;
+    height: 3vh;
     width: inherit;
     text-align: center;
     cursor: move;
@@ -56,7 +56,24 @@
 
 .windowInternalContainer {
     width: inherit;
-    height: 100%-20px;
-    margin-top: 20px;
+    height: 100%;
     border: 2px ridge solid;
+}
+
+.menuWrapper {
+    width:100%;
+    left: 0px;
+    height: fit-content;
+}
+
+.menuLevel0 {
+    position: relative;
+    border-right: 1px solid;
+    padding: 0.2em;
+}
+
+.menuBarBackground {
+    top: 0px;
+    height: 100%;
+    padding: 0.08em;
 }

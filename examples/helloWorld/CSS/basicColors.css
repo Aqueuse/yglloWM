@@ -1,4 +1,4 @@
-.wrapper {
+.windowWrapper {
     background-color: white;
     border-color: lightgrey;
 }
@@ -14,3 +14,11 @@
 .windowInternalContainer {
     background-color: white;
 }
+
+.menuLevel0 {
+    background-color: silver;
+}
+
+.menuBarBackground {
+    background-color: silver;
+ }

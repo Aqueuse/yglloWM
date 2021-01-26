@@ -4,7 +4,7 @@ var relativeMousePos;
 var initialRight;
 
 var mouseDown = function (element) {
-    currentElement = element;    
+    currentElement = element;
     topIndex = topIndex+1;
     currentElement.parentElement.style.zIndex = topIndex;
 
