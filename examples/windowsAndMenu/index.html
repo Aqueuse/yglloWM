@@ -4,7 +4,6 @@
 <body>
     <script src="./core/yglloWindow.js"></script>
     <script src="./core/yglloMenu.js"></script>
-    <script src="./core/windowManagement.js"></script>
 
     <div class="menuContainer" id="menuContainerID"></div>
     
@@ -47,11 +46,11 @@
         'directItem3':'myItemLink7'
     };
 
-    myMenuAbove1 = new yglloMenu(menuContent1, "above");
-//    myMenuAbove2 = new yglloMenu(menuContent2, "above");
+//    myMenuAbove1 = new yglloMenu(menuContent1, "above");
+    myMenuAbove2 = new yglloMenu(menuContent2, "above");
 //    myMenuBelow1 = new yglloMenu(menuContent3, "below");
 
-document.getElementById("menuContainerID").append(myMenuAbove1);
+document.getElementById("menuContainerID").append(myMenuAbove2);
 
 </script>
 

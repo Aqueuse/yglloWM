@@ -1,4 +1,6 @@
-// Create a class for the element
+/////////////////// The Menu constructor, followed by the functions to click them
+
+////////////////// The menu class /////////////////////
 class yglloMenu extends HTMLElement {
     constructor(JSONcontent, HorizontalPosition) {
         super();
@@ -34,15 +36,15 @@ class yglloMenu extends HTMLElement {
         menuWrapper.appendChild(menuBarBackground);
 
         // read the JSONcontent, add each element to the menuWrapper
-        Object.keys(JSONcontent).forEach( (v, i) => {
-            //console.log(i+" : "+v+" = "+JSONcontent[v]);
+        Object.keys(JSONcontent).forEach( (value, index) => {
             item = document.createElement('span');
-            item.setAttribute('id',uniqueID+'-item-'+i);
+            item.setAttribute('id',uniqueID+'-item-'+index);
             item.setAttribute('class','menuLevel0');
+            item.setAttribute('onclick', 'console.log(this.id);');
 
             link = document.createElement('a');
-            link.innerHTML = JSONcontent[v];
-            link.setAttribute('id', uniqueID+'-link-'+i);
+            link.innerHTML = JSONcontent[value];
+            link.setAttribute('id', uniqueID+'-link-'+index);
             link.setAttribute('class','menuLink');
 
             item.appendChild(link);
@@ -55,3 +57,5 @@ class yglloMenu extends HTMLElement {
 }
 
 customElements.define('ygllo-menu', yglloMenu);
+
+///////////////// the functions to click the menu  ///////////////////////
