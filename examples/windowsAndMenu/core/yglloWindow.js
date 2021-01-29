@@ -1,12 +1,14 @@
-/////////////////// The Window constructor, followed by the function to move and resize them
+// The Window constructor, followed by the functions to move and resize them
+var windowsList = [];
 
 ////////////////// The window class /////////////////////
 class yglloWindow extends HTMLElement {
-    constructor(title, left, top, width, height) {
+    constructor(title, name, left, top, width, height) {
         super();
 
         // Create a shadow root
         const shadow = this.attachShadow({ mode: 'open' });
+        this.setAttribute('name',name);
 
         // generate CSS to apply to the window
         const style = document.createElement('style');
