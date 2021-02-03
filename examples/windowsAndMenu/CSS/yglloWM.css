@@ -63,6 +63,7 @@
 .menuParent {
     width:100%;
     left: 0px;
+    vertical-align: left;
 }
 
 .menuBarBackground {
@@ -72,19 +73,16 @@
 }
 
 .subMenu {
-    width: 50px;
-    height: 100px;
-    /* display: none; */
+    height: max-content;
+    display: inline;
 }
 
 .menuItem {
-    position: relative;
     border-right: 1px solid;
     padding-left: 1vh;
     padding-right: 1vh;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     /* prevent the user to select the items of the menu */
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */

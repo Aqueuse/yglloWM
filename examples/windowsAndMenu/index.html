@@ -10,13 +10,13 @@
     window1 = new yglloWindow("my window 1", "window1", 10, 100, 150, 200);
     document.body.append(window1);
 
-    parentMenu = new yglloMainMenu(50);
+    parentMenu = new yglloMainMenu(0,"myFirstMainMenu");
     document.body.append(parentMenu);
 
-    parentMenu.addItem("hello", "openSubMenu(this, 'window1')");
-    parentMenu.addItem("world", "openWindow('window1')");
+    parentMenu.addItem("hello", "openSubMenu(this, 'firstSubMenu')");
+    parentMenu.addItem("world", "openSubMenu(this, 'firstSubMenu')");
 
-    subMenu1 = new yglloSubMenu("parentMenu", "firtSubMenu");
+    subMenu1 = new yglloSubMenu("parentMenu", "firstSubMenu");
     document.body.append(subMenu1);
 
     subMenu1.addItem("subItem1", "openWindow('window1')");
