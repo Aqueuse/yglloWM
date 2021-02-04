@@ -7,28 +7,12 @@ var item;
 ////////////////// The main menu class /////////////////////
 
 class yglloMainMenu extends HTMLElement {
-    constructor(top, menuName) {
+    constructor(top, menuID) {
         super();
-        const shadow = this.attachShadow({ mode: 'open' });
-
-        this.setAttribute('name',"parentMenu");
-        uniqueID = getUniqueID("menu-" + top);
-
-        // generate CSS to apply to the menu
-        const style = document.createElement('style');
-        var generalImport = "@import './CSS/yglloWM.css';\n";
-        style.textContent = generalImport;
+        this.setAttribute('id',menuID);
 
         menuParent = document.createElement('div');
         menuParent.setAttribute('class', 'menuParent');
-        menuParent.setAttribute('name',menuName);
-        menuParent.setAttribute('id', uniqueID);
-
-        // this background allow us to organize things simply with inline elements
-        // var menuBarBackground = document.createElement('div');
-        // menuBarBackground.setAttribute('class', 'menuBarBackground');
-        // menuBarBackground.setAttribute('style', "position: absolute; left:0px; width:100%;");
-        // menuParent.appendChild(menuBarBackground);
 
         var verticalPosition = "top:" + top + "px;";
         var horizontalPosition = "left:0px;";
@@ -43,11 +27,11 @@ class yglloMainMenu extends HTMLElement {
  
         menuParent.setAttribute('style', parentStyle);
 
-        shadow.appendChild(style);
-        shadow.append(menuParent);
+        this.append(menuParent);
+        document.body.append(this);
 
-        this.addItem = function(name, onclick) {
-            item = new yglloItem("mainMenu", name, onclick);
+        this.addItem = function(itemID, text, onclick) {
+            item = new yglloItem(this.id, itemID, text, onclick);
             menuParent.append(item);
         }
     }
@@ -58,89 +42,98 @@ customElements.define('ygllo-mainmenu', yglloMainMenu);
 ////////////////// The sub menu class /////////////////////
 
 class yglloSubMenu extends HTMLElement {
-    constructor(parentMenuName, menuName) {
+    constructor(itemAttachmentID, menuID) {
         super();
-        const shadow = this.attachShadow({ mode: 'open' });
 
-        this.setAttribute('name', menuName);
-        this.setAttribute('class', 'subMenu');
-
-        // generate CSS to apply to the menu
-        const style = document.createElement('style');
-        var generalImport = "@import './CSS/yglloWM.css';\n";
-        style.textContent = generalImport;
+        this.setAttribute('id', menuID);
 
         subMenu = document.createElement('div');
+        subMenu.setAttribute('class', 'subMenu');
 
-        var parentTop = parseInt(document.getElementsByName(parentMenuName)[0].shadowRoot.childNodes[1].style.top, 10);
-        var parentVhHeight = document.getElementsByName(parentMenuName)[0].shadowRoot.childNodes[1].style.height;
-        var parentHeight = parseInt(parentVhHeight,10)*6.57;
+        var parentMenu = document.getElementById(itemAttachmentID).parentElement;
 
-        var verticalPosition = "top:"+parentTop+parentHeight+"px;";
-        var horizontalPosition = "left:0px;";
+        // TODO : dynamise itemHeight in the CSS
+        var itemPXheight = 5*6.57;
+
+        if (parentMenu.className == "menuParent") {
+            var parentLeft = parseInt(parentMenu.style.left, 10);
+            var parentTop = parseInt(parentMenu.style.top, 10);
+            var parentHeight = itemPXheight+"px;";
+            var parentWidth = parseInt(parentMenu.style.width, 10);
+    
+            var verticalPosition = "top:"+parentTop+parentHeight+"px;";
+            var horizontalPosition = "left:0px;";  // stack horizontally
+        }
+
+        if (parentMenu.className == "subMenu") {
+            var parentLeft = parseInt(parentMenu.style.left, 10);
+            var parentTop = parseInt(parentMenu.style.top, 10);
+
+            var siblingNumber = parentMenu.childElementCount-1;
+            var parentHeight = siblingNumber*itemPXheight;
+            var parentWidth = parseInt(parentMenu.style.width, 10);
+            var topPosition = parentTop+parentHeight;
+            var leftPosition = parentLeft+parentMenu.clientWidth;
+
+            var verticalPosition = "top:"+topPosition+"px;";  // stack vertically
+            var horizontalPosition = "left:"+leftPosition+ "px;";
+        }
 
         var wrapperStyle = "position:absolute;" +
             verticalPosition +
             horizontalPosition+
             "visibility:hidden;";
  
-        this.setAttribute('style', wrapperStyle);
+        subMenu.setAttribute('style', wrapperStyle);
 
-        shadow.appendChild(style);
-        shadow.append(subMenu);
+        this.append(subMenu);
+        document.body.append(this);
 
-        this.addItem = function(name, onclick) {
-            item = new yglloItem("subMenu", name, onclick);
+        this.addItem = function(itemID, text, onclick) {
+            item = new yglloItem(this.id, itemID, text, onclick);
             subMenu.append(item);
         }
     }
 }
-
 customElements.define('ygllo-submenu', yglloSubMenu);
 
 ///////////////////////// the item class ////////////////////////
 
 class yglloItem extends HTMLElement {
-    constructor(parentType, itemName, onclick) {
+    constructor(parentID, itemID, itemText, onclick) {
         super();
-        const shadow = this.attachShadow({ mode: 'open' });
+        this.setAttribute('id', itemID);
 
-        uniqueID = getUniqueID("item-" + itemName);
-
-        const style = document.createElement('style');
-        var generalImport = "@import './CSS/yglloWM.css';\n";
-        style.textContent = generalImport;
+        var parentType = document.getElementById(parentID).firstChild.className;
 
         item = document.createElement('span');
         if (parentType=="subMenu") {
             item.setAttribute('style','display:block; vertical-align:middle;');
         }
 
-        item.setAttribute('id', uniqueID);
         item.setAttribute('class', 'menuItem');
-        item.innerHTML = itemName;
         item.setAttribute('onclick', onclick);
+        item.innerHTML = itemText;
 
-        shadow.appendChild(style);
-        shadow.appendChild(item);
+        this.append(item);
+        document.getElementById(parentID).append(this);
     }
 }
-
 customElements.define('ygllo-item', yglloItem);
 
 ///////////////// the functions to create and click the menu  /////////////////
 
-function openSubMenu(itemClicked, subMenuName) {
-    // we will display the submenu and move it at the top/right corner of the item
-//    console.log(itemClicked);
-    document.getElementsByName(subMenuName)[0].style.visibility = "visible";
-    console.log(document.getElementsByName(subMenuName));
+function openSubMenu(subMenuID) {
+    var subMenuVisibility = document.getElementById(subMenuID).firstChild.style.visibility;
+    if (subMenuVisibility == "hidden") {   /// don't over simplify please, it will not work
+        document.getElementById(subMenuID).firstChild.style.visibility = "visible";
+    }
+    if (subMenuVisibility == "visible") {
+        document.getElementById(subMenuID).firstChild.style.visibility = "hidden";
+    }
 }
 
-function openWindow(windowName) {
-    // find the parent menu
-    var parentTop = document.getElementsByName(windowName)[0].shadowRoot.childNodes[1].style.top;
-    var parentHeight = document.getElementsByName(windowName)[0].shadowRoot.childNodes[1].style.height;
-
-    console.log(parentHeight);
+function openWindow(windowID) {
+    console.log(document.getElementById(windowID).style.visibility);
+    document.getElementById(windowID).style.visibility = "visible";
 }

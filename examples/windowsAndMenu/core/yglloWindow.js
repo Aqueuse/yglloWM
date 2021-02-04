@@ -3,58 +3,47 @@ var windowsList = [];
 
 ////////////////// The window class /////////////////////
 class yglloWindow extends HTMLElement {
-    constructor(title, name, left, top, width, height) {
+    constructor(title, ID, left, top, width, height) {
         super();
-
-        // Create a shadow root
-        const shadow = this.attachShadow({ mode: 'open' });
-        this.setAttribute('name',name);
-
-        // generate CSS to apply to the window
-        const style = document.createElement('style');
-        var generalImport = "@import './CSS/yglloWM.css';\n";
-        style.textContent=generalImport;
 
         left = "left : "+left+"px;";
         top = "top : "+top+"px;";
         width = "width : "+width+"px;";
         height = "height : "+height+"px;";
-        var wrapperStyle="position : absolute;"+left+top+width+height;
-
-        var uniqueID = getUniqueID(title);
+        var wrapperStyle="position : absolute;"+left+top+width+height+"visibility:visible;";
 
         const wrapper = document.createElement('div');
         wrapper.setAttribute('class', 'windowWrapper');
-        wrapper.setAttribute('id', uniqueID);
+        wrapper.setAttribute('id', ID);
         wrapper.setAttribute('style', wrapperStyle);
 
         const header = document.createElement('div');
         header.setAttribute('class', 'windowHeader');
         header.setAttribute('onmousedown', 'mouseDown(this)');
-        header.setAttribute('id', 'headerID-'+uniqueID);
+        header.setAttribute('id', 'headerID-'+ID);
         header.innerHTML = title;
 
         const borderLeft = document.createElement('div');
         borderLeft.setAttribute('class', 'windowBorder borderLeft');
         borderLeft.setAttribute('onmousedown', 'mouseDown(this)');
-        borderLeft.setAttribute('id', 'borderLeftID-'+uniqueID);
+        borderLeft.setAttribute('id', 'borderLeftID-'+ID);
         const borderRight = document.createElement('div');
         borderRight.setAttribute('class', 'windowBorder borderRight');
         borderRight.setAttribute('onmousedown', 'mouseDown(this)');
-        borderRight.setAttribute('id', 'borderRightID-'+uniqueID);
+        borderRight.setAttribute('id', 'borderRightID-'+ID);
         const borderTop = document.createElement('div');
         borderTop.setAttribute('class', 'windowBorder borderTop');
         borderTop.setAttribute('onmousedown', 'mouseDown(this)');
-        borderTop.setAttribute('id', 'borderTopID-'+uniqueID);
+        borderTop.setAttribute('id', 'borderTopID-'+ID);
         const borderBottom = document.createElement('div');
         borderBottom.setAttribute('class', 'windowBorder borderBottom');
         borderBottom.setAttribute('onmousedown', 'mouseDown(this)');
-        borderBottom.setAttribute('id', 'borderBottomID-'+uniqueID);
+        borderBottom.setAttribute('id', 'borderBottomID-'+ID);
 
         const windowInternalContainer = document.createElement('div');
         windowInternalContainer.setAttribute('class', 'windowInternalContainer');
         windowInternalContainer.setAttribute('onmousedown', 'mouseDown(this)');
-        windowInternalContainer.setAttribute('id', 'windowInternalContainer-'+uniqueID);
+        windowInternalContainer.setAttribute('id', 'windowInternalContainer-'+ID);
 
         // Attach the created elements to the shadow dom
         wrapper.appendChild(borderLeft);
@@ -64,8 +53,7 @@ class yglloWindow extends HTMLElement {
         wrapper.appendChild(header);
         wrapper.appendChild(windowInternalContainer);
 
-        shadow.appendChild(style);
-        shadow.appendChild(wrapper);
+        this.append(wrapper);
     }
 }
 
@@ -148,31 +136,3 @@ var stopEventListening = function (e) {
         currentElement.parentElement.removeEventListener('click', stopEventListening, false);        
     }
 };
-
-function getUniqueID(complicatedTitle) {
-    var key = "-" + Math.random().toString(36).substring(2, 10);
-
-    var shortTitle = complicatedTitle.toLowerCase();
-    var arrayTitle = shortTitle.split(" ", 3);
-    var cleanTitle = [];
-
-    for (i = 0; i < arrayTitle.length; i++) {
-        var arrayWord = arrayTitle[i].split("");
-        for (j = 0; j < arrayWord.length; j++) {
-            if (isAlphaNumeric(arrayWord[j]))
-                cleanTitle.push(arrayWord[j]);
-        }
-    }
-    return cleanTitle.join("") + key;
-}
-
-function isAlphaNumeric(char) {
-    var code = char.charCodeAt(0);
-    if (!(code > 47 && code < 58) && // numeric (0-9)
-        !(code > 96 && code < 123)) { // lower alpha (a-z)
-        return false;
-    }
-    else {
-        return true;
-    }
-}
