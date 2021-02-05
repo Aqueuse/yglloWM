@@ -5,30 +5,7 @@
 <body>
     <script src="./core/yglloWindow.js"></script>
     <script src="./core/yglloMenu.js"></script>
-    
-    <script>
-    window1 = new yglloWindow("my window 1", "window1", 10, 100, 150, 200);
-    document.body.append(window1);
 
-    parentMenu = new yglloMainMenu(0, "myFirstMainMenu");
-    document.body.append(parentMenu);
-
-    parentMenu.addItem("hello", "hello", "openSubMenu('firstSubMenu')");
-    parentMenu.addItem("world", "world", "openWindow('window1')");
-
-    subMenu1 = new yglloSubMenu("hello", "firstSubMenu");
-    document.body.append(subMenu1);
-
-    subMenu1.addItem("subItem1", "1er subitem", "openWindow('window1')");
-    subMenu1.addItem("subItem2", "2ème subitem", "openSubMenu('secondSubMenu')");
-
-    subMenu2 = new yglloSubMenu("subItem2", "secondSubMenu");
-    document.body.append(subMenu2);
-
-    subMenu2.addItem("subItem3", "3ème subItem", "openWindow('window1')");
-    subMenu2.addItem("subItem4", "4ème subItem", "openWindow('window1')");
-
-</script>
-
+    <script src="./myScript.js"></script>
 </body>
 </html>
