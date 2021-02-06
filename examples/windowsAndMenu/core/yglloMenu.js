@@ -112,14 +112,52 @@ class yglloMenuContent extends HTMLElement {
 customElements.define('ygllo-menucontent', yglloMenuContent);
 
 ///////////////// the functions to create and click the menu  /////////////////
-var node;
 
-/// when a menu is closed, close all his childrens by consulting the family tree
-function closeSubMenu(element) {
-    console.log(element);
+/// methods to wrap and ease the final creation of Menus, subMenus and items
+/**
+ * @param {string} id - the menu ID
+ * @param {number} top - the vertical position in px
+ */ 
+function createHorizontalMenu(id, top) {
+    var mainMenu = new yglloMenuContainer("body", id, "horizontal", top);
+    document.body.append(mainMenu);
 }
 
+/**
+ * @param {string} parentID - the parent menu ID
+ * @param {string} ID - this submenu ID
+ */
+function createSubMenu(parentID, ID) {
+    var subMenu = new yglloMenuContainer(parentID, ID, "vertical", 0);
+    document.body.append(subMenu);
+}
+
+/**
+ * @param {string} menuID - the menu where this item is added
+ * @param {string} ID - this menu ID
+ * @param {string} innerText - the text of this item
+ * @param {string} mouseEventType - the mouse event 
+ */
+function createMenuLeaf(menuID, ID, innerText, eventFunction) {
+    var item = new yglloMenuContent(menuID, ID, innerText, "onclick", eventFunction);
+    document.getElementById(menuID).append(item);
+}
+
+/**
+ * @param {string} menuID - the menu where this item is added
+ * @param {string} ID - this menu ID
+ * @param {string} innerText - the text of this item
+ * @param {string} subMenuID - the submenu to open
+ */
+function createSubMenuOpener(menuID, ID, innerText, subMenuID) {
+    var item = new yglloMenuContent(menuID, ID, innerText, "onmouseover", "openSubMenu("+subMenuID+")");
+    document.getElementById(menuID).append(item);
+}
+
+////// method to interact with the menus and items
+
 function familyTreeAppend(type, ID, parentID) {
+    var node;
     if (type=="node") {
         if (parentID == "body") {
             console.log("add a root node");
@@ -150,6 +188,11 @@ function openSubMenu(subMenuID) {
     if (subMenuVisibility == "visible") {
         document.getElementById(subMenuID).firstChild.style.visibility = "hidden";
     }
+}
+
+/// when a menu is closed, close all his childrens by consulting the family tree
+function closeSubMenu(element) {
+    console.log(element);
 }
 
 function openWindow(windowID) {

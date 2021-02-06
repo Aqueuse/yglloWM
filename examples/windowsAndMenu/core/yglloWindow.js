@@ -61,6 +61,19 @@ customElements.define('ygllo-window', yglloWindow);
 
 //////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @param {string} innerText - the window header text content
+ * @param {string} windowID - the window ID
+ * @param {number} initialLeft - the initial left position of the window, in px
+ * @param {number} initialTop - the initial top position of the window, in px
+ * @param {number} initialWidth - the initial width of the window, in px
+ * @param {number} initialHeight - the initial height of the window, in px
+ */
+function createWindow(innerText, windowID, initialLeft, initialTop, initialWidth, initialHeight) {
+    var window = new yglloWindow(innerText, windowID, initialLeft, initialTop, initialWidth, initialHeight);
+    document.body.append(window);
+}
+
 /////////// the set of functions and variables to use the windows /////////////
 var currentElement;
 var topIndex=0;
