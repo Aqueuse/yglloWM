@@ -38,9 +38,7 @@ class yglloMenuContent extends HTMLElement {
         super();
         this.setAttribute('id', itemID);
 
-        var parentType = document.getElementById(parentID).firstChild.className;
         var item = document.createElement('span');
-
         item.setAttribute('class', 'menuItem');
         item.setAttribute(mouseEvent, eventFunction);
         item.innerHTML = itemText;

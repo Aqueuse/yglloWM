@@ -56,10 +56,9 @@ class yglloWindow extends HTMLElement {
         this.append(wrapper);
     }
 }
-
 customElements.define('ygllo-window', yglloWindow);
 
-//////////////////////////////////////////////////////////////////////////////
+///////////// the function to create the windows //////////////
 
 /**
  * @param {string} innerText - the window header text content
@@ -91,22 +90,21 @@ var mouseDown = function (element) {
     else {
         currentElement.parentElement.addEventListener('mousemove', saveInitialRight, false);
     }
-    currentElement.parentElement.addEventListener('click', stopEventListening, false);
+    currentElement.parentElement.addEventListener('mouseup', stopEventListening, false);
 };
 
-// save the relative X mouse position in the window (middleware)
+// save the relative X mouse position in the window (move middleware)
 var saveRelativeMousePos = function(e) {
     relativeMousePos = e.clientX - parseInt(currentElement.parentElement.style.left,10);
     currentElement.parentElement.removeEventListener('mousemove', saveRelativeMousePos, false);
     currentElement.parentElement.addEventListener('mousemove', move, false);
 }
 
-// save the initial right and bottom of the window (middleware)
+// save the initial right and bottom of the window (resize middleware)
 var saveInitialRight = function(e) {
     initialRight = e.clientX + parseInt(currentElement.parentElement.style.width,10);
-    initialBottom = 
-        parseInt(currentElement.parentElement.style.top,10) +
-        parseInt(currentElement.parentElement.style.height,10);
+    initialBottom = parseInt(currentElement.parentElement.style.top,10) +
+                    parseInt(currentElement.parentElement.style.height,10);
     currentElement.parentElement.removeEventListener('mousemove', saveInitialRight, false);
     currentElement.parentElement.addEventListener('mousemove', resize, false);
 }
@@ -142,10 +140,10 @@ var resize = function(e) {
 var stopEventListening = function (e) {
     if (currentElement.id === "headerID-"+currentElement.parentElement.id) {
         currentElement.parentElement.removeEventListener('mousemove', move, false);
-        currentElement.parentElement.removeEventListener('click', stopEventListening, false);        
+        currentElement.parentElement.removeEventListener('mouseup', stopEventListening, false);        
     }
     else {
         currentElement.parentElement.removeEventListener('mousemove', resize, false);
-        currentElement.parentElement.removeEventListener('click', stopEventListening, false);        
+        currentElement.parentElement.removeEventListener('mouseup', stopEventListening, false);        
     }
 };

@@ -40,7 +40,7 @@
 .windowHeader {
     position: absolute;
     top: 0px;
-    height: 3vh;
+    height: 20px;
     width: inherit;
     text-align: center;
     cursor: move;
