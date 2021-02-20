@@ -1,7 +1,8 @@
 @import './basicColors.css';
 
+/* ------------ the windows styling --------------- */
 .windowWrapper {
-    border: 2px ridge;
+    border: 4px ridge;
 }
 
 .windowBorder {
@@ -43,7 +44,7 @@
     width: inherit;
     text-align: center;
     cursor: move;
-    border-bottom: 1px solid;
+    border-bottom: 4px ridge;
     /* prevent the user to select the title of the windows */
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */
@@ -60,20 +61,35 @@
     border: 2px ridge solid;
 }
 
-.menuWrapper {
+/* -------------- the menus styling --------------- */
+.menuParent {
     width:100%;
+    height: 20px;
     left: 0px;
-    height: fit-content;
+    position:absolute;
+    display:inline;
+    border-bottom: 1px solid silver;
 }
 
-.menuLevel0 {
-    position: relative;
+.subMenu {
+    height: max-content; 
+    display: block;
+    position:absolute;
+    visibility:hidden;
+}
+
+.menuItem {
     border-right: 1px solid;
-    padding: 0.2em;
-}
-
-.menuBarBackground {
-    top: 0px;
-    height: 100%;
-    padding: 0.08em;
+    padding-left: 1vh;
+    padding-right: 1vh;
+    text-align: center;
+    text-decoration: none;
+    /* prevent the user to select the items of the menu */
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }

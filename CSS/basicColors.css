@@ -15,10 +15,10 @@
     background-color: white;
 }
 
-.menuLevel0 {
-    background-color: silver;
+.menuParent {
+    background-color: #CCC;
 }
 
-.menuBarBackground {
-    background-color: silver;
- }
+ .subMenu {
+    background-color: whitesmoke;
+}

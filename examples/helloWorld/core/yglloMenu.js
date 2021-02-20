@@ -1,61 +1,195 @@
-/////////////////// The Menu constructor, followed by the functions to click them
+/////////////////// The Menu and Items constructors, followed by the functions to click them
 
-////////////////// The menu class /////////////////////
-class yglloMenu extends HTMLElement {
-    constructor(JSONcontent, HorizontalPosition) {
+////////////////// The sub menu class /////////////////////
+class yglloMenuContainer extends HTMLElement {
+    /** 
+      * @param {string} parentNodeID - the parent node ID, if type is horizontal, it's always body
+      * @param {string} ID - the element ID
+      * @param {string} type - vertical or horizontal ?
+      * @param {number} top - if horizontal, top position
+    */
+    constructor(parentNodeID, ID, type, top) {
         super();
 
-        const shadow = this.attachShadow({ mode: 'open' });
+        this.setAttribute('id', ID);
+        var menuWrapper = document.createElement('div');
 
-        // generate CSS to apply to the window
-        const style = document.createElement('style');
-        var generalImport = "@import './CSS/yglloWM.css';\n";
-        style.textContent=generalImport;
-
-        if (HorizontalPosition === "above") {
-            var verticalPosition = "top:0px;";
+        if (parentNodeID == "body") {
+            menuWrapper.setAttribute('class', 'menuParent');
         }
-        if (HorizontalPosition === "below") {
-            var verticalPosition = "bottom:0px;";
+        else {
+            menuWrapper.setAttribute('class', 'subMenu');
+        }
+        this.append(menuWrapper);
+    }
+}
+customElements.define('ygllo-menucontainer', yglloMenuContainer);
+
+///////////////////////// the item class ////////////////////////
+class yglloMenuContent extends HTMLElement {
+    /**
+    * @param {string} parentID the parent element ID
+    * @param {string} itemID the chosen item ID
+    * @param {string} itemText the inner content
+    * @param {string} mouseEvent the mouse event to react
+    * @param {string} eventFunction the action to perform on mouseEvent
+    */
+    constructor(parentID, itemID, itemText, mouseEvent, eventFunction) {
+        super();
+        this.setAttribute('id', itemID);
+
+        var parentType = document.getElementById(parentID).firstChild.className;
+        var item = document.createElement('span');
+
+        item.setAttribute('class', 'menuItem');
+        item.setAttribute(mouseEvent, eventFunction);
+        item.innerHTML = itemText;
+        this.append(item);
+
+        familyTreeAppend("leaf", itemID, parentID);
+    }
+}
+customElements.define('ygllo-menucontent', yglloMenuContent);
+
+///////////////// the functions to create and click the menu  /////////////////
+
+/// methods to wrap and ease the final creation of Menus, subMenus and items
+/**
+ * @param {string} id - the menu ID
+ * @param {number} top - the vertical position in px
+ */
+function createHorizontalMenu(id, top) {
+    var mainMenu = new yglloMenuContainer("body", id, "horizontal", top);
+    familyTreeAppend("node", id, "body");
+    document.body.append(mainMenu);
+    menuPlacement(id, "body", top);
+}
+
+/**
+ * @param {string} parentID - the parent menu ID
+ * @param {string} ID - this submenu ID
+ */
+function createSubMenu(parentID, id) {
+    var subMenu = new yglloMenuContainer(parentID, id, "vertical", 0);
+    familyTreeAppend("node", id, parentID);
+    document.body.append(subMenu);
+    menuPlacement(id, parentID, 0);
+}
+
+/**
+ * @param {string} menuID - the menu where this item is added
+ * @param {string} ID - this item ID
+ * @param {string} innerText - the text of this item
+ * @param {string} mouseEventType - the mouse event 
+ */
+function createMenuLeaf(menuID, ID, innerText, eventFunction) {
+    var eventMouse = "onclick";
+    var item = new yglloMenuContent(menuID, ID, innerText, eventMouse, eventFunction);
+    document.getElementById(menuID).firstChild.append(item);
+}
+
+/**
+ * @param {string} menuID - the menu where this item is added
+ * @param {string} ID - this menu ID
+ * @param {string} innerText - the text of this item
+ * @param {string} subMenuID - the submenu to open
+ */
+function createSubMenuOpener(menuID, ID, innerText, subMenuID) {
+    if (document.getElementById(menuID).firstChild.className == "menuParent") {
+        var eventMouse = "onclick";
+    }
+    else {
+        var eventMouse = "onmouseover";
+    }
+    var item = new yglloMenuContent(menuID, ID, innerText, eventMouse, "openSubMenu(" + subMenuID + ")");
+    document.getElementById(menuID).firstChild.append(item);
+}
+
+////// We place the elements after they are created ////
+function menuPlacement(elementID, parentID, top) {
+    // si le menu est un main menu ...
+    if (parentID == "body") {
+        var style = "top :"+top+"px;";
+        document.getElementById(elementID).firstChild.setAttribute('style', style);
+    }
+
+    // si le menu est un sub menu ...
+    else {
+        var parentMenu = document.getElementById(parentID).parentElement;
+        const itemPXheight = 20;
+
+        // si le subMenuOpener est dans le mainMenu ... 
+        if (parentMenu.className == "menuParent") {
+            var parentLeft = parseInt(parentMenu.style.left, 10);
+            var parentTop = parseInt(parentMenu.style.top, 10);
+            var parentHeight = itemPXheight + "px;";
+
+            var left = "top:" + parentTop + parentHeight + "px;";
+            var top = "left:0px;";  // stack horizontally
+            var style = left + top;
+            document.getElementById(elementID).firstChild.setAttribute('style', style);
         }
 
-        var wrapperStyle="position : absolute;"+verticalPosition;
+        /// si le subMenuOpener est dans un subMenu ...
+        if (parentMenu.className == "subMenu") {
+            var parentLeft = parseInt(parentMenu.style.left, 10);
+            var parentTop = parseInt(parentMenu.style.top, 10);
 
-        const menuWrapper = document.createElement('div');
-        menuWrapper.setAttribute('class', 'menuWrapper');
-        menuWrapper.setAttribute('style', wrapperStyle);
- 
-        var item;
-        var link;
-        var uniqueID = getUniqueID("menu"+HorizontalPosition);
+            var siblingNumber = parentMenu.childElementCount - 1;
+            var parentHeight = siblingNumber * itemPXheight;
+            var top = parentTop + parentHeight;
+            var left = parentLeft + parentMenu.clientWidth;
 
-        // this background allow us to organize things simply with inline elements
-        var menuBarBackground = document.createElement('div');
-        menuBarBackground.setAttribute('class', 'menuBarBackground');
-        menuBarBackground.setAttribute('style', "position: absolute; right:0px; width:100%;");
-        menuWrapper.appendChild(menuBarBackground);
+            var verticalPosition = "top:" + top + "px;";  // stack vertically
+            var horizontalPosition = "left:" + left + "px;";
 
-        // read the JSONcontent, add each element to the menuWrapper
-        Object.keys(JSONcontent).forEach( (value, index) => {
-            item = document.createElement('span');
-            item.setAttribute('id',uniqueID+'-item-'+index);
-            item.setAttribute('class','menuLevel0');
-            item.setAttribute('onclick', 'console.log(this.id);');
-
-            link = document.createElement('a');
-            link.innerHTML = JSONcontent[value];
-            link.setAttribute('id', uniqueID+'-link-'+index);
-            link.setAttribute('class','menuLink');
-
-            item.appendChild(link);
-            menuWrapper.appendChild(item);
-        });
-
-        shadow.appendChild(style);
-        shadow.appendChild(menuWrapper);
+            var style = verticalPosition + horizontalPosition;
+            document.getElementById(elementID).firstChild.setAttribute('style', style);
+        }
     }
 }
 
-customElements.define('ygllo-menu', yglloMenu);
+////// methods to interact with the menus and items
+function familyTreeAppend(type, ID, parentID) {
+    var node;
+    if (type == "node") {
+        if (parentID == "body") {
+            console.log("add a root node");
+            var familyTree = document.createElement('xml');
+            familyTree.setAttribute('id', 'familyTree' + ID);
+            document.body.append(familyTree);
+        }
+        else {
+            console.log("add a node");
+            node = document.createElement('node');
+            node.setAttribute('id', "familyTree" + ID);
+            document.getElementById('familyTree' + parentID).append(node);
+        }
+    }
+    if (type == "leaf") {
+        console.log("add a leaf");
+        node = document.createElement('leaf');
+        node.setAttribute('id', "familyTree" + ID);
+        document.getElementById("familyTree" + parentID).append(node);
+    }
+}
 
-///////////////// the functions to click the menu  ///////////////////////
+function openSubMenu(subMenuID) {
+    var subMenuVisibility = document.getElementById(subMenuID).firstChild.style.visibility;
+    if (subMenuVisibility == "hidden") {   /// don't over simplify please, it will not work
+        document.getElementById(subMenuID).firstChild.style.visibility = "visible";
+    }
+    if (subMenuVisibility == "visible") {
+        document.getElementById(subMenuID).firstChild.style.visibility = "hidden";
+    }
+}
+
+/// when a menu is closed, close all his childrens by consulting the family tree
+function closeSubMenu(element) {
+    console.log(element);
+}
+
+function openWindow(windowID) {
+    console.log(document.getElementById(windowID).style.visibility);
+    document.getElementById(windowID).style.visibility = "visible";
+}
