@@ -16,16 +16,9 @@
 }
 
 .menuParent {
-    background-color: silver;
+    background-color: #CCC;
 }
-
-.menuBarBackground {
-    background-color: silver;
- }
 
  .subMenu {
     background-color: whitesmoke;
-}
-
-.menuItem {
 }
