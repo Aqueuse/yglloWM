@@ -8,7 +8,7 @@ class yglloMenuContainer extends HTMLElement {
       * @param {string} type - vertical or horizontal ?
       * @param {number} top - if horizontal, top position
     */
-    constructor(parentNodeID, ID, type, top) {
+    constructor(parentNodeID, ID, top) {
         super();
 
         this.setAttribute('id', ID);
@@ -16,6 +16,7 @@ class yglloMenuContainer extends HTMLElement {
 
         if (parentNodeID == "body") {
             menuWrapper.setAttribute('class', 'menuParent');
+            menuWrapper.setAttribute('style', 'top:'+top+"px;");
         }
         else {
             menuWrapper.setAttribute('class', 'subMenu');
@@ -37,8 +38,9 @@ class yglloMenuContent extends HTMLElement {
     constructor(parentID, itemID, itemText, mouseEvent, eventFunction) {
         super();
         this.setAttribute('id', itemID);
+        var parentClassName = document.getElementById(parentID).firstChild.className;
 
-        var item = document.createElement('span');
+        var item = (parentClassName == "menuParent") ? document.createElement('span') : document.createElement('div');
         item.setAttribute('class', 'menuItem');
         item.setAttribute(mouseEvent, eventFunction);
         item.innerHTML = itemText;
@@ -57,10 +59,9 @@ customElements.define('ygllo-menucontent', yglloMenuContent);
  * @param {number} top - the vertical position in px
  */
 function createHorizontalMenu(id, top) {
-    var mainMenu = new yglloMenuContainer("body", id, "horizontal", top);
+    var mainMenu = new yglloMenuContainer("body", id, top);
     familyTreeAppend("node", id, "body");
     document.body.append(mainMenu);
-    menuPlacement(id, "body", top);
 }
 
 /**
@@ -68,10 +69,10 @@ function createHorizontalMenu(id, top) {
  * @param {string} ID - this submenu ID
  */
 function createSubMenu(parentID, id) {
-    var subMenu = new yglloMenuContainer(parentID, id, "vertical", 0);
+    var subMenu = new yglloMenuContainer(parentID, id, 0);
     familyTreeAppend("node", id, parentID);
     document.body.append(subMenu);
-    menuPlacement(id, parentID, 0);
+    submenuPlacement(parentID, id);
 }
 
 /**
@@ -93,27 +94,19 @@ function createMenuLeaf(menuID, ID, innerText, eventFunction) {
  * @param {string} subMenuID - the submenu to open
  */
 function createSubMenuOpener(menuID, ID, innerText, subMenuID) {
-    if (document.getElementById(menuID).firstChild.className == "menuParent") {
-        var eventMouse = "onclick";
-    }
-    else {
-        var eventMouse = "onmouseover";
-    }
+    var menuClassName = document.getElementById(menuID).firstChild.className;
+
+    /// on main menu we open on click / else it's on mouse over
+    var eventMouse = (menuClassName == "menuParent") ? "onclick" : "onmouseover";
+
     var item = new yglloMenuContent(menuID, ID, innerText, eventMouse, "openSubMenu(" + subMenuID + ")");
     document.getElementById(menuID).firstChild.append(item);
 }
 
 ////// We place the elements after they are created ////
-function menuPlacement(elementID, parentID, top) {
-    // si le menu est un main menu ...
-    if (parentID == "body") {
-        var style = "top :"+top+"px;";
-        document.getElementById(elementID).firstChild.setAttribute('style', style);
-    }
-
+function submenuPlacement(parentID, elementID) {
     // si le menu est un sub menu ...
-    else {
-        var parentMenu = document.getElementById(parentID).parentElement;
+        var parentMenu = document.getElementById(parentID).firstChild;
         const itemPXheight = 20;
 
         // si le subMenuOpener est dans le mainMenu ... 
@@ -122,9 +115,21 @@ function menuPlacement(elementID, parentID, top) {
             var parentTop = parseInt(parentMenu.style.top, 10);
             var parentHeight = itemPXheight + "px;";
 
-            var left = "top:" + parentTop + parentHeight + "px;";
-            var top = "left:0px;";  // stack horizontally
-            var style = left + top;
+            var cadetsArray = document.getElementById(parentID).firstElementChild.children;    
+            var charsCadetsNumber = 0;
+    
+            for (let i=0; i<cadetsArray.length; i++) {
+                if (cadetsArray[i].id != "span1") {
+                    charsCadetsNumber = charsCadetsNumber + cadetsArray[i].innerHTML.length;
+                }
+                else break;
+            }
+
+            // https://www.w3schools.com/tags/canvas_measuretext.asp
+
+            var top = "top:"+parentTop+itemPXheight+"px;";
+            var left = "left:"+charsCadetsNumber * 0.5 +"px;";
+            var style = top + left + "visibility:hidden;";
             document.getElementById(elementID).firstChild.setAttribute('style', style);
         }
 
@@ -132,19 +137,18 @@ function menuPlacement(elementID, parentID, top) {
         if (parentMenu.className == "subMenu") {
             var parentLeft = parseInt(parentMenu.style.left, 10);
             var parentTop = parseInt(parentMenu.style.top, 10);
-
-            var siblingNumber = parentMenu.childElementCount - 1;
-            var parentHeight = siblingNumber * itemPXheight;
+            
+            var cadetsNumber = parentMenu.childElementCount - 1;
+            var parentHeight = cadetsNumber * itemPXheight;
             var top = parentTop + parentHeight;
             var left = parentLeft + parentMenu.clientWidth;
 
-            var verticalPosition = "top:" + top + "px;";  // stack vertically
+            var verticalPosition = "top:" + top + "px;";
             var horizontalPosition = "left:" + left + "px;";
 
-            var style = verticalPosition + horizontalPosition;
+            var style = verticalPosition + horizontalPosition + "visibility:hidden;";
             document.getElementById(elementID).firstChild.setAttribute('style', style);
         }
-    }
 }
 
 ////// methods to interact with the menus and items
@@ -173,12 +177,12 @@ function familyTreeAppend(type, ID, parentID) {
 }
 
 function openSubMenu(subMenuID) {
-    var subMenuVisibility = document.getElementById(subMenuID).firstChild.style.visibility;
+    var subMenuVisibility = subMenuID.firstChild.style.visibility;
     if (subMenuVisibility == "hidden") {   /// don't over simplify please, it will not work
-        document.getElementById(subMenuID).firstChild.style.visibility = "visible";
+        subMenuID.firstChild.style.visibility = "visible";
     }
     if (subMenuVisibility == "visible") {
-        document.getElementById(subMenuID).firstChild.style.visibility = "hidden";
+        subMenuID.firstChild.style.visibility = "hidden";
     }
 }
 
