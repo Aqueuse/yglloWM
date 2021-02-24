@@ -41,7 +41,7 @@
     position: absolute;
     top: 0px;
     height: 20px;
-    width: inherit;
+    width: 100%;
     text-align: center;
     cursor: move;
     border-bottom: 4px ridge;
@@ -56,40 +56,6 @@
 }
 
 .windowInternalContainer {
-    width: inherit;
+    width: max-content;
     height: 100%;
-    border: 2px ridge solid;
-}
-
-/* -------------- the menus styling --------------- */
-.menuParent {
-    width:100%;
-    height: 20px;
-    left: 0px;
-    position:absolute;
-    display:inline;
-    border-bottom: 1px solid silver;
-}
-
-.subMenu {
-    height: max-content; 
-    display: block;
-    position:absolute;
-    visibility:hidden;
-}
-
-.menuItem {
-    border-right: 1px solid;
-    padding-left: 1vh;
-    padding-right: 1vh;
-    text-align: center;
-    text-decoration: none;
-    /* prevent the user to select the items of the menu */
-    -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Old versions of Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
 }

@@ -6,11 +6,11 @@ class yglloWindow extends HTMLElement {
     constructor(title, ID, left, top, width, height) {
         super();
 
-        left = "left : "+left+"px;";
-        top = "top : "+top+"px;";
-        width = "width : "+width+"px;";
-        height = "height : "+height+"px;";
-        var wrapperStyle="position : absolute;"+left+top+width+height+"visibility:visible;";
+        left = "left:"+left+"px; ";
+        top = "top:"+top+"px; ";
+        width = "width:"+width+"px; ";
+        height = "height:"+height+"px; ";
+        var wrapperStyle="position:absolute; "+left+top+width+height+ "visibility:visible;";
 
         const wrapper = document.createElement('div');
         wrapper.setAttribute('class', 'windowWrapper');
@@ -147,3 +147,15 @@ var stopEventListening = function (e) {
         currentElement.parentElement.removeEventListener('mouseup', stopEventListening, false);        
     }
 };
+
+function showHideWindow(windowID) {
+    const window = document.getElementById(windowID);
+    var windowVisibility = getComputedStyle(window).visibility;
+
+    if (windowVisibility === "visible") {
+        window.style.visibility="hidden";
+    }
+    else if (windowVisibility === "hidden") {
+        window.style.visibility="visible";
+    }
+}
