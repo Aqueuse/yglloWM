@@ -149,7 +149,7 @@ var stopEventListening = function (e) {
 };
 
 function showHideWindow(windowID) {
-    const window = document.getElementById(windowID);
+    var window = document.getElementById(windowID);
     var windowVisibility = getComputedStyle(window).visibility;
 
     if (windowVisibility === "visible") {

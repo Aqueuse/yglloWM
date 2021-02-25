@@ -1,3 +1,0 @@
-MainMenu.onClick => MainMenu.itemChilds.addEventListener('onmouseover')
-
-itemChild.onmouseover => subMenu.itemChilds.addEventListener('onmouseover')
